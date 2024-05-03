@@ -3,28 +3,26 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include "MainClass.hpp"
 using namespace std;
 
 
 int main() {
-    
     int k = 2;
     int alpha = 1;
-    string filePath = "data/tiny.csv";
-    //provavelmente é boa ideia remover espaços, pontuação e caratéres estranhos
-    //vector<pair<string,int>> data = readData(filePath);
+    MainClass main(k,alpha);
 
-    MarkovModel human(k,alpha);
+    //provavelmente é boa ideia remover espaços, pontuação e caratéres estranhos
+    string filePathPos = "data/tiny_pos.csv";
+    string filePathNeg = "data/tiny_neg.csv";
+    main.readData(filePathPos,filePathNeg);
+
+    main.trainModels();
    
     string text = "abcdfgfjkgaskvnlksajhfgaslkvnsjakfpkasnlhak";
-    ai.train(text);
-    human.train(text);
-    std::cout << "AI bits: " << ai.bitsToCompress(text)<< std::endl;
-    std::cout << "Human bits: " <<human.bitsToCompress(text) << std::endl;
-    //ai.printHashTable();
-    //human.printHashTable();
-    //falta fazer a parte equivalente ao calculateBits deles e as funções das métricas
-    //criar classe para juntar dois modelos e tomar decisoes
+    
+    int predicted_label = main.predict(text,0);
+    
+    cout << "\nPredicted label: " << predicted_label << endl;
+    
     return 0;
 }

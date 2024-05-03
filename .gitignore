@@ -1,6 +1,7 @@
 /.vscode
 /rawData
-/data/data.csv
+/data/neg_data.csv
+/data/pos_data.csv
 # Prerequisites
 *.d
 

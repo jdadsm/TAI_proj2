@@ -1,4 +1,4 @@
-g++ src/*.cpp -o run -O3 
+g++ src/*.cpp src/*.hpp -o run -O3 
 if [ $? -eq 0 ]; then
     echo "Compilation successful."
     ./run
