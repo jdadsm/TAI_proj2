@@ -1,1 +1,7 @@
-# TAI_proj2
+# How to run
+
+- Run download.sh
+
+- Then run cleanData.py
+
+- Finally run run.sh

@@ -1,3 +1,6 @@
+/.vscode
+/rawData
+/data/data.csv
 # Prerequisites
 *.d
 
