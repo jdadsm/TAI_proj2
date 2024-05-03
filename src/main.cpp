@@ -1,63 +1,22 @@
+#include "MainClass.hpp"
 #include <iostream>
 #include <vector>
-#include "MarkovModel.hpp"
 #include <fstream>
 #include <sstream>
-
+#include "MainClass.hpp"
 using namespace std;
 
-vector<pair<string,int>> readData(string filename){
-    
-    vector<pair<string, int>> data;
-    ifstream file(filename);
-
-    if (!file.is_open()) {
-        cerr << "Error: Unable to open file " << filename << endl;
-        return data;
-    }
-
-    string line;
-    while (getline(file, line)) {
-        istringstream iss(line);
-        string text;
-        int label;
-
-        if (getline(iss, text, ',') && (iss >> label)) {
-            data.push_back({text, label});
-        } else {
-            cerr << "Error: Invalid line format in file " << filename << endl;
-            continue;
-        }
-    }
-
-    file.close();
-
-    return data;
-}
 
 int main() {
     
     int k = 2;
+    int alpha = 1;
     string filePath = "data/tiny.csv";
     //provavelmente é boa ideia remover espaços, pontuação e caratéres estranhos
     //vector<pair<string,int>> data = readData(filePath);
 
-    MarkovModel human(k);
-    MarkovModel ai(k);
-    /*
-     for (const auto& pair : data) {
-        const string& text = pair.first;
-        int label = pair.second;
-        if(label == 1){
-            ai.train(text);
-            std::cout << "AI bits: " << ai.bitsToCompress(text)<< std::endl;
-    
-        }else if(label == 0){
-            human.train(text);
-            std::cout << "Human bits: " <<human.bitsToCompress(text) << std::endl;
-        }
-    }
-    */
+    MarkovModel human(k,alpha);
+   
     string text = "abcdfgfjkgaskvnlksajhfgaslkvnsjakfpkasnlhak";
     ai.train(text);
     human.train(text);
