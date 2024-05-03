@@ -12,18 +12,20 @@ private:
 public:
     void increment(const std::string& context, char nextChar);
     void printHashTable();
+    double calculateProbability(const std::string& context,char nextChar,int alpha);
 };
 
 class MarkovModel {
 private:
     HashTable table;
     int k;
-    std::string text;
+    int alpha;
 
 public:
-    MarkovModel( int k);
+    MarkovModel( int k,int alpha=1);
     void train(const std::string& text);
     void printHashTable();
+    double bitsToCompress(const std::string& text);
 };
 
 #endif // MARKOV_MODEL_HPP
