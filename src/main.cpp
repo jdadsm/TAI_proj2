@@ -14,15 +14,15 @@ int main() {
     //provavelmente é boa ideia remover espaços, pontuação e caratéres estranhos
     string filePathPos = "data/tiny_pos.csv";
     string filePathNeg = "data/tiny_neg.csv";
-    main.readData(filePathPos,filePathNeg);
+    string filePathPosTest = "data/tiny_pos_test.csv";
+    string filePathNegTest = "data/tiny_neg_test.csv";
+    main.readData(filePathPos,filePathNeg,filePathPosTest,filePathNegTest);
 
     main.trainModels();
    
-    string text = "abcdfgfjkgaskvnlksajhfgaslkvnsjakfpkasnlhak";
-    
-    int predicted_label = main.predict(text,0);
-    
-    cout << "\nPredicted label: " << predicted_label << endl;
-    
+    main.testModels();
+    cout << "Accuracy: " << main.accuracy() << endl;
+    cout << "F1score: " << main.f_score() << endl;
+    main.printConfusionMatrix();
     return 0;
 }

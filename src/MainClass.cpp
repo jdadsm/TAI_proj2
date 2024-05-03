@@ -5,12 +5,17 @@
 using namespace std;
 MainClass::MainClass(int k, int alpha) : ai(k, alpha), human(k, alpha) {
 }
-void MainClass:: readData(string filePathPos, string filePathNeg){
+void MainClass:: readData(string filePathPos, string filePathNeg,
+                            string filePathPosTest,string filePathNegTest){
     
     vector<string> dataPos;
     vector<string> dataNeg;
+    vector<string> dataPosTest;
+    vector<string> dataNegTest;
     ifstream filePos(filePathPos);
     ifstream fileNeg(filePathNeg);
+    ifstream filePosTest(filePathPosTest);
+    ifstream fileNegTest(filePathNegTest);
 
     if (!filePos.is_open()) {
         cerr << "Error: Unable to open file " << filePathPos << endl;
@@ -37,8 +42,25 @@ void MainClass:: readData(string filePathPos, string filePathNeg){
 
     fileNeg.close();
 
+    while (getline(filePosTest, line)) {
+        dataPosTest.push_back(line);
+        cout << "\nText: " << line << endl;
+    }
+
+    filePos.close();
+
+    while (getline(fileNegTest, line)) {
+        dataNegTest.push_back(line);
+        cout << "\nText: " << line << endl;
+    }
+
+    fileNeg.close();
+
+    
     input_data_pos = dataPos;
     input_data_neg = dataNeg;
+    input_data_pos_test = dataPosTest;
+    input_data_neg_test = dataNegTest;
 }
 
 void MainClass:: trainModels(){ 
@@ -67,6 +89,17 @@ int MainClass:: predict(string text, int label){
     
 }
 
+void MainClass:: testModels(){ 
+    for (const string text : input_data_pos_test) {
+        ai.train(text);
+        std::cout << "AI label predict: " << predict(text,1)<< std::endl;
+    }
+
+    for (const string text : input_data_neg_test) {
+        human.train(text);
+        std::cout << "Human label predict: " << predict(text,0) << std::endl;
+    }
+}
 
 
 

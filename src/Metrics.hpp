@@ -12,6 +12,7 @@ public:
     float precision();
     float f_score();
     float accuracy();
+    void printConfusionMatrix();
 };
 
 #endif // MARKOV_MODEL_HPP
