@@ -4,9 +4,11 @@
 #include <unordered_map>
 #include <string>
 
+using namespace std;
+
 class Metrics {
 private:
-    std::unordered_map<std::string, int> confusionMatrix;
+    unordered_map<string, int> confusionMatrix;
 public:
     void fillConfusionMatrix(int prediction,int real_value);
     float recall();

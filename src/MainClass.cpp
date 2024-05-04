@@ -2,10 +2,11 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
 
 using namespace std;
 
-MainClass::MainClass(int k, int alpha, bool saveModel) : ai(k, alpha), human(k, alpha), saveModel(saveModel) {
+MainClass::MainClass(int k, int alpha) : ai(k, alpha), human(k, alpha) {
 }
 
 void MainClass:: readData(string filePathPos, string filePathNeg,
@@ -71,13 +72,15 @@ void MainClass:: trainModels(){
         ai.train(text);
         //cout << "AI bits: " << ai.bitsToCompress(text)<< endl;
     }
-    save_model(ai,"models/ai/model1.bin");
-
     for (const string text : input_data_neg) {
         human.train(text);
         //cout << "Human bits: " <<human.bitsToCompress(text) << endl;
     }
-    save_model(ai,"models/human/model1.bin");
+}
+
+void MainClass:: saveModels(string nameToSaveModel){
+    save_model(ai,"models/ai/"+nameToSaveModel);
+    save_model(human,"models/human/"+nameToSaveModel);
 }
 
 int MainClass:: predict(string text, int label){
@@ -97,35 +100,37 @@ int MainClass:: predict(string text, int label){
 void MainClass:: testModels(){ 
     for (const string text : input_data_pos_test) {
         ai.train(text);
-        cout << "AI label predict: " << predict(text,1)<< endl;
+        int predicted_value = predict(text,1);
+        //cout << "AI label predict: " << predicted_value << endl;
     }
 
     for (const string text : input_data_neg_test) {
         human.train(text);
-        cout << "Human label predict: " << predict(text,0) << endl;
+        int predicted_value = predict(text,0);
+        //cout << "Human label predict: " << predicted_value << endl;
     }
 }
 
-void MainClass:: save_model(const MarkovModel& obj, const char* filename) {
-    std::ofstream file(filename, std::ios::binary);
+void MainClass:: save_model(const MarkovModel& obj, const string filename) {
+    ofstream file(filename, ios::binary);
     if (file.is_open()) {
         file.write(reinterpret_cast<const char*>(&obj), sizeof(obj));
         file.close();
-        std::cout << "Model saved to binary file: " << filename << std::endl;
+        cout << "Model saved to binary file: " << filename << endl;
     } else {
-        std::cerr << "Error: Unable to open file for writing!" << std::endl;
+        cerr << "Error: Unable to open file for writing!" << endl;
     }
 }
 
-MarkovModel MainClass:: load_model(const char* filename) {
+MarkovModel MainClass:: load_model(const string filename) {
     MarkovModel obj;
-    std::ifstream file(filename, std::ios::binary);
+    ifstream file(filename, ios::binary);
     if (file.is_open()) {
         file.read(reinterpret_cast<char*>(&obj), sizeof(obj));
         file.close();
-        std::cout << "Model loaded from binary file: " << filename << std::endl;
+        cout << "Model loaded from binary file: " << filename << endl;
     } else {
-        std::cerr << "Error: Unable to open file for reading!" << std::endl;
+        cerr << "Error: Unable to open file for reading!" << endl;
     }
     return obj;
 }

@@ -6,26 +6,26 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class MainClass:public Metrics {
 private:
     MarkovModel ai;
     MarkovModel human;
-    std::vector<std::string> input_data_pos;
-    std::vector<std::string> input_data_neg;
-    std::vector<std::string> input_data_pos_test;
-    std::vector<std::string> input_data_neg_test;
-    bool saveModel;
+    vector<string> input_data_pos;
+    vector<string> input_data_neg;
+    vector<string> input_data_pos_test;
+    vector<string> input_data_neg_test;
 
 public:
-    MainClass( int k,int alpha=1, bool saveModel=false);
-    MainClass( MarkovModel ai, MarkovModel human);
+    MainClass(int k,int alpha=1);
     void trainModels();
-    void readData(std::string filePathPos, std::string filePathNeg
-    ,std::string filePathPosTest,std::string filePathNegTest);
-    int predict(std::string text, int label);
+    void readData(string filePathPos, string filePathNeg,string filePathPosTest,string filePathNegTest);
+    int predict(string text, int label);
     void testModels();
-    void save_model(const MarkovModel& obj, const char* filename);
-    MarkovModel load_model(const char* filename);
+    void save_model(const MarkovModel& obj, const string filename);
+    MarkovModel load_model(const string filename);
+    void saveModels(string nameToSaveModel);
 };
 
 #endif

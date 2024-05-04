@@ -1,6 +1,9 @@
 #include "Metrics.hpp"
 #include <iostream> 
 #include <iomanip>
+
+using namespace std;
+
 void Metrics::fillConfusionMatrix(int pred_label,int label){
     if(pred_label== 1 && label==1){
         confusionMatrix["true_positive"]++;
@@ -14,15 +17,15 @@ void Metrics::fillConfusionMatrix(int pred_label,int label){
 }
 
 float Metrics::recall() {
-    return confusionMatrix["true_positive"] / (confusionMatrix["true_positive"]+ confusionMatrix["false_negative"]);
+    return static_cast<float> (confusionMatrix["true_positive"]) / (confusionMatrix["true_positive"] + confusionMatrix["false_negative"]);
 }
 
 float Metrics::precision() {
-    return confusionMatrix["true_positive"] / (confusionMatrix["true_positive"] + confusionMatrix["false_positive"]);
+    return static_cast<float> (confusionMatrix["true_positive"]) / (confusionMatrix["true_positive"] + confusionMatrix["false_positive"]);
 }
 
 float Metrics::f_score() {
-    return 2* precision() * recall() / (precision() + recall());
+    return (2 * precision() * recall()) / (precision() + recall());
 }
 
 float Metrics::accuracy() {
@@ -32,11 +35,11 @@ float Metrics::accuracy() {
 }
 
 void Metrics::printConfusionMatrix() {
-    std::cout << "Confusion Matrix:\n";
-    std::cout << "---------------------------------------------\n";
-    std::cout << "                           Predicted\n";
-    std::cout << "                  |   Positive    |   Negative   |\n";
-    std::cout << "Actual | Positive |" << std::setw(8) << confusionMatrix["true_positive"] << std::setw(8)<< "|" << std::setw(8) << confusionMatrix["false_negative"] << std::setw(8) << "|\n";
-    std::cout << "       | Negative |" << std::setw(8) << confusionMatrix["false_positive"] << std::setw(8)<< "|" << std::setw(8) << confusionMatrix["true_negative"] << std::setw(8) << "|\n";
-    std::cout << "---------------------------------------------\n";
+    cout << "Confusion Matrix:\n";
+    cout << "---------------------------------------------\n";
+    cout << "                           Predicted\n";
+    cout << "                  |   Positive    |   Negative   |\n";
+    cout << "Actual | Positive |" << setw(8) << confusionMatrix["true_positive"] << setw(8)<< "|" << setw(8) << confusionMatrix["false_negative"] << setw(8) << "|\n";
+    cout << "       | Negative |" << setw(8) << confusionMatrix["false_positive"] << setw(8)<< "|" << setw(8) << confusionMatrix["true_negative"] << setw(8) << "|\n";
+    cout << "---------------------------------------------\n";
 }

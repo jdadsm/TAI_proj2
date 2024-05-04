@@ -1,7 +1,9 @@
 #ifndef MARKOV_MODEL_HPP
 #define MARKOV_MODEL_HPP
 
-#include "HashTable.hpp" 
+#include "HashTable.hpp"
+
+using namespace std;
 
 class MarkovModel {
 private:
@@ -12,9 +14,9 @@ private:
 
 public:
     MarkovModel(int k=2, int alpha=1);
-    void train(const std::string& text);
+    void train(const string& text);
     void printHashTable();
-    double bitsToCompress(const std::string& text);
+    double bitsToCompress(const string& text);
     int getK();
     int getAlpha();
 };

@@ -1,20 +1,28 @@
 import os
 import csv
+import re
 
-def cleanData(inputFolder, outputFilePathPos, outputFilePathNeg):
+def cleanData(inputFolder, testDataSize, outputFilePathPosTrain, outputFilePathNegTrain, outputFilePathPosTest, outputFilePathNegTest):
     inputFiles = os.listdir(inputFolder)
     print(inputFiles)
     
-    with open(outputFilePathPos, 'w', newline='') as outputFilePos,open(outputFilePathNeg, 'w', newline='') as outputFileNeg:
-        csv_writer_pos = csv.writer(outputFilePos)
-        csv_writer_neg = csv.writer(outputFileNeg)
-        csv_writer_pos.writerow(['text'])
-        csv_writer_neg.writerow(['text'])
+    # Compile regex pattern to match non-alphanumeric characters
+    pattern = re.compile(r'[^a-zA-Z0-9\s]')
+    
+    testDataValue = 1/testDataSize*100
+    
+    with open(outputFilePathPosTrain, 'w', newline='') as outputFilePosTrain, open(outputFilePathNegTrain, 'w', newline='') as outputFileNegTrain, open(outputFilePathPosTest, 'w', newline='') as outputFilePosTest, open(outputFilePathNegTest, 'w', newline='') as outputFileNegTest:
+        csv_writer_pos_train = csv.writer(outputFilePosTrain)
+        csv_writer_neg_train = csv.writer(outputFileNegTrain)
+        csv_writer_pos_test = csv.writer(outputFilePosTest)
+        csv_writer_neg_test = csv.writer(outputFileNegTest)
+        csv_writer_pos_train.writerow(['text'])
+        csv_writer_neg_train.writerow(['text'])
 
         for fileName in inputFiles:
-            filePath = os.path.join(inputFolder,fileName)
+            filePath = os.path.join(inputFolder, fileName)
             
-            print(filePath+"\n")
+            print(filePath + "\n")
             
             with open(filePath, 'r') as inputFile:
                 csv_reader = csv.reader(inputFile)
@@ -27,16 +35,31 @@ def cleanData(inputFolder, outputFilePathPos, outputFilePathNeg):
                     print(f"Skipping file '{fileName}' due to missing 'text' or 'label' columns.")
                     continue
                 
+                n = 0
                 for row in csv_reader:
                     text_value = row[text_index].replace('\n', '')
                     label_value = row[label_index]
-                    if label_value == '0':
-                        csv_writer_neg.writerow([text_value])
+                    
+                    # Use regex to remove non-alphanumeric characters
+                    text_value_cleaned = re.sub(pattern, '', text_value)
+                    
+                    if n%testDataValue == 0:
+                        if label_value == '0':
+                            csv_writer_neg_test.writerow([text_value_cleaned])
+                        else:
+                            csv_writer_pos_test.writerow([text_value_cleaned])
                     else:
-                        csv_writer_pos.writerow([text_value])
+                        if label_value == '0':
+                            csv_writer_neg_train.writerow([text_value_cleaned])
+                        else:
+                            csv_writer_pos_train.writerow([text_value_cleaned])
+                    n+=1
 
 if __name__ == "__main__":
     inputFolder = "rawData"
-    outputFilePathNeg = "data/neg_data.csv"
-    outputFilePathPos = "data/pos_data.csv"
-    cleanData(inputFolder,outputFilePathPos,outputFilePathNeg)
+    outputFilePathNegTrain = "data/neg_data_train.csv"
+    outputFilePathPosTrain = "data/pos_data_train.csv"
+    outputFilePathNegTest = "data/neg_data_test.csv"
+    outputFilePathPosTest = "data/pos_data_test.csv"
+    testDataSize = 5 # in percentage
+    cleanData(inputFolder, testDataSize, outputFilePathPosTrain, outputFilePathNegTrain, outputFilePathPosTest, outputFilePathNegTest)
