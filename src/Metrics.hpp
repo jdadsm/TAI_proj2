@@ -1,5 +1,6 @@
 #ifndef METRICS_HPP
 #define METRICS_HPP
+
 #include <unordered_map>
 #include <string>
 
@@ -15,4 +16,4 @@ public:
     void printConfusionMatrix();
 };
 
-#endif // MARKOV_MODEL_HPP
+#endif

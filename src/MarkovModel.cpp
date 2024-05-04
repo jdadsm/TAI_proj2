@@ -23,3 +23,11 @@ double MarkovModel::bitsToCompress(const std::string& text) {
 void MarkovModel::printHashTable() {
     table.printHashTable();
 }
+
+int MarkovModel::getK(){
+    return k;
+}
+
+int MarkovModel::getAlpha(){
+    return alpha;
+}

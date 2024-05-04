@@ -2,9 +2,12 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
 using namespace std;
-MainClass::MainClass(int k, int alpha) : ai(k, alpha), human(k, alpha) {
+
+MainClass::MainClass(int k, int alpha, bool saveModel) : ai(k, alpha), human(k, alpha), saveModel(saveModel) {
 }
+
 void MainClass:: readData(string filePathPos, string filePathNeg,
                             string filePathPosTest,string filePathNegTest){
     
@@ -30,28 +33,28 @@ void MainClass:: readData(string filePathPos, string filePathNeg,
     string line;
     while (getline(filePos, line)) {
         dataPos.push_back(line);
-        cout << "\nText: " << line << endl;
+        //cout << "\nText: " << line << endl;
     }
 
     filePos.close();
 
     while (getline(fileNeg, line)) {
         dataNeg.push_back(line);
-        cout << "\nText: " << line << endl;
+        //cout << "\nText: " << line << endl;
     }
 
     fileNeg.close();
 
     while (getline(filePosTest, line)) {
         dataPosTest.push_back(line);
-        cout << "\nText: " << line << endl;
+        //cout << "\nText: " << line << endl;
     }
 
     filePos.close();
 
     while (getline(fileNegTest, line)) {
         dataNegTest.push_back(line);
-        cout << "\nText: " << line << endl;
+        //cout << "\nText: " << line << endl;
     }
 
     fileNeg.close();
@@ -66,20 +69,22 @@ void MainClass:: readData(string filePathPos, string filePathNeg,
 void MainClass:: trainModels(){ 
     for (const string text : input_data_pos) {
         ai.train(text);
-        std::cout << "AI bits: " << ai.bitsToCompress(text)<< std::endl;
+        //cout << "AI bits: " << ai.bitsToCompress(text)<< endl;
     }
+    save_model(ai,"models/ai/model1.bin");
 
     for (const string text : input_data_neg) {
         human.train(text);
-        std::cout << "Human bits: " <<human.bitsToCompress(text) << std::endl;
+        //cout << "Human bits: " <<human.bitsToCompress(text) << endl;
     }
+    save_model(ai,"models/human/model1.bin");
 }
 
 int MainClass:: predict(string text, int label){
     double ai_bits = ai.bitsToCompress(text);
     double human_bits = human.bitsToCompress(text);
-    cout << "\nBits to compress in human model: " << human_bits << endl;
-    cout << "Bits to compress in AI model: " << ai_bits << endl;
+    //cout << "\nBits to compress in human model: " << human_bits << endl;
+    //cout << "Bits to compress in AI model: " << ai_bits << endl;
     int pred_label = 1;
     if(human_bits<ai_bits){
         pred_label = 0;
@@ -92,14 +97,35 @@ int MainClass:: predict(string text, int label){
 void MainClass:: testModels(){ 
     for (const string text : input_data_pos_test) {
         ai.train(text);
-        std::cout << "AI label predict: " << predict(text,1)<< std::endl;
+        cout << "AI label predict: " << predict(text,1)<< endl;
     }
 
     for (const string text : input_data_neg_test) {
         human.train(text);
-        std::cout << "Human label predict: " << predict(text,0) << std::endl;
+        cout << "Human label predict: " << predict(text,0) << endl;
     }
 }
 
+void MainClass:: save_model(const MarkovModel& obj, const char* filename) {
+    std::ofstream file(filename, std::ios::binary);
+    if (file.is_open()) {
+        file.write(reinterpret_cast<const char*>(&obj), sizeof(obj));
+        file.close();
+        std::cout << "Model saved to binary file: " << filename << std::endl;
+    } else {
+        std::cerr << "Error: Unable to open file for writing!" << std::endl;
+    }
+}
 
-
+MarkovModel MainClass:: load_model(const char* filename) {
+    MarkovModel obj;
+    std::ifstream file(filename, std::ios::binary);
+    if (file.is_open()) {
+        file.read(reinterpret_cast<char*>(&obj), sizeof(obj));
+        file.close();
+        std::cout << "Model loaded from binary file: " << filename << std::endl;
+    } else {
+        std::cerr << "Error: Unable to open file for reading!" << std::endl;
+    }
+    return obj;
+}
