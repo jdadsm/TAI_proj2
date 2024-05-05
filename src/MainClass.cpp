@@ -99,13 +99,11 @@ int MainClass:: predict(string text, int label){
 
 void MainClass:: testModels(){ 
     for (const string text : input_data_pos_test) {
-        ai.train(text);
         int predicted_value = predict(text,1);
         //cout << "AI label predict: " << predicted_value << endl;
     }
 
     for (const string text : input_data_neg_test) {
-        human.train(text);
         int predicted_value = predict(text,0);
         //cout << "Human label predict: " << predicted_value << endl;
     }
