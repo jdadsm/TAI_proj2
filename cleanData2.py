@@ -7,7 +7,7 @@ def cleanData(inputFolder, testDataSize, outputFilePathPosTrain, outputFilePathN
     print(inputFiles)
     
     # Compile regex pattern to match non-alphanumeric characters
-    pattern = re.compile(r'[^a-zA-Z0-9\s]')
+    pattern = re.compile(r'[^a-zA-Z0-9]')
     
     testDataValue = 1/testDataSize*100
     
