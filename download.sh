@@ -3,5 +3,5 @@ if [ ! -d "rawData" ]; then
     unzip rawData.zip
     rm rawData.zip
 else
-    echo "Files already exist. Skipping download and extraction."
+    echo "Folder already exists. Skipping download and extraction."
 fi
