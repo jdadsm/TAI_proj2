@@ -15,7 +15,7 @@ double HashTable::calculateProbability(const std::string& context,char nextChar,
         all_counts+=pair.second;
         size++;
     }
-    return static_cast<double>(target + alpha) / (all_counts + alpha * size);
+    return static_cast<double>(target + alpha) / (all_counts + alpha * 62);
    
 }
 void HashTable::printHashTable() {

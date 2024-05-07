@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <chrono>
 
 using namespace std;
 
@@ -32,17 +33,42 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    
     MainClass main(k,alpha);
 
     main.readData(filePathPos,filePathNeg,filePathPosTest,filePathNegTest);
 
+    auto start = std::chrono::high_resolution_clock::now();
+ 
+  
     main.trainModels();
-   
+    
+    auto end = std::chrono::high_resolution_clock::now();
+
+
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+    std::cout << "Training Time: " << duration.count() << " seconds" << std::endl;
+
+
+
     if(nameToSaveModel!=""){
         main.saveModels(nameToSaveModel);
     }
 
+    main.printHashTableNeg();
+    //main.printHashTablePos();
+
+    auto start1 = std::chrono::high_resolution_clock::now();
+ 
+  
     main.testModels();
+    
+    auto end1 = std::chrono::high_resolution_clock::now();
+
+
+    auto duration1 = std::chrono::duration_cast<std::chrono::seconds>(end1 - start1);
+    std::cout << "Testing Time: " << duration1.count() << " seconds" << std::endl;
+    
     main.printConfusionMatrix();
 
     cout << "Recall: " << main.recall() << endl;

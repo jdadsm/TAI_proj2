@@ -10,7 +10,6 @@ private:
     HashTable table;
     int k;
     int alpha;
-    bool saveModel;
 
 public:
     MarkovModel(int k=2, int alpha=1);

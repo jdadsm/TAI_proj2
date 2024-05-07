@@ -132,3 +132,11 @@ MarkovModel MainClass:: load_model(const string filename) {
     }
     return obj;
 }
+
+void MainClass:: printHashTablePos(){
+    ai.printHashTable();
+}
+
+void MainClass:: printHashTableNeg(){
+    human.printHashTable();
+}

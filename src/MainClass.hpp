@@ -26,6 +26,8 @@ public:
     void save_model(const MarkovModel& obj, const string filename);
     MarkovModel load_model(const string filename);
     void saveModels(string nameToSaveModel);
+    void printHashTablePos();
+    void printHashTableNeg();
 };
 
 #endif

@@ -40,21 +40,22 @@ def cleanData(inputFolder, testDataSize, outputFilePathPosTrain, outputFilePathN
                 n = 0
                 for row in csv_reader:
                     text_value = row[text_index].replace('\n', '')
+                    #text_value = text_value.lower()
                     label_value = row[label_index]
                     
                     # Use regex to remove non-alphanumeric characters
-                    text_value_cleaned = re.sub(pattern, '', text_value)
+                    text_value = re.sub(pattern, '', text_value)
                     
                     if n%testDataValue == 0:
                         if label_value == 'Human':
-                            csv_writer_neg_test.writerow([text_value_cleaned])
-                        else:
-                            csv_writer_pos_test.writerow([text_value_cleaned])
+                            csv_writer_neg_test.writerow([text_value])
+                        elif label_value == 'GPT-3.5':
+                            csv_writer_pos_test.writerow([text_value])
                     else:
                         if label_value == 'Human':
-                            csv_writer_neg_train.writerow([text_value_cleaned])
-                        else:
-                            csv_writer_pos_train.writerow([text_value_cleaned])
+                            csv_writer_neg_train.writerow([text_value])
+                        elif label_value == 'GPT-3.5':
+                            csv_writer_pos_train.writerow([text_value])
                     n+=1
 
 if __name__ == "__main__":
