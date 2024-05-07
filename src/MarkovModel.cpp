@@ -7,6 +7,7 @@ using namespace std;
 MarkovModel::MarkovModel(int k,int alpha) : k(k),alpha(alpha) {}
 
 void MarkovModel::train(const string& text) {
+    if ((k+1)>text.length()) return ;
     for (int i = 0; i <= text.length() - (k+1); ++i) {
         string context = text.substr(i, k);
         char nextChar = text[i + k];
@@ -15,6 +16,7 @@ void MarkovModel::train(const string& text) {
 }
 double MarkovModel::bitsToCompress(const string& text) {
     double sum = 0;
+    if ((k+1)>text.length()) return -log2(table.calculateProbability("", '.',alpha));
     for (int i = 0; i <= text.length() - (k+1); ++i) {
         string context = text.substr(i, k);
         char nextChar = text[i + k];

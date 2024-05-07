@@ -10,13 +10,13 @@ using namespace std;
 
 
 int main(int argc, char* argv[]) {
-    int k = 2;
+    int k = 6;
     int alpha = 1;
     string nameToSaveModel = "model";
     string filePathPos = "data/pos_data_train.csv";
-    string filePathNeg = "data/neg_data_train.csv";
+    string filePathNeg = "data/neg_data_train2.csv";
     string filePathPosTest = "data/pos_data_test.csv";
-    string filePathNegTest = "data/neg_data_test.csv";
+    string filePathNegTest = "data/neg_data_test2.csv";
 
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];

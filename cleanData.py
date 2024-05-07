@@ -5,11 +5,6 @@ import re
 def cleanData(inputFolder, testDataSize, outputFilePathPosTrain, outputFilePathNegTrain, outputFilePathPosTest, outputFilePathNegTest):
     inputFiles = os.listdir(inputFolder)
     print(inputFiles)
-    stopwords = []
-    with open("stopwords.txt", 'r') as file:
-        for line in file:
-            # Remove leading and trailing whitespaces and add the word to the list
-            stopwords.append(line.strip())
     # Compile regex pattern to match non-alphanumeric characters
     pattern = re.compile(r'[^a-zA-Z0-9]')
     
@@ -67,3 +62,4 @@ if __name__ == "__main__":
     outputFilePathPosTest = "data/pos_data_test.csv"
     testDataSize = 10 # in percentage
     cleanData(inputFolder, testDataSize, outputFilePathPosTrain, outputFilePathNegTrain, outputFilePathPosTest, outputFilePathNegTest)
+    

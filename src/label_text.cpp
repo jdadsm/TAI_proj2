@@ -44,9 +44,9 @@ int main(int argc, char *argv[]) {
     }
 
     std::string filename = argv[1];
-    std::string input = cleanInput(loadTextFromFile(filename));
+    std::string input = loadTextFromFile(filename);
     
-    MainClass model(1, 1);
+    MainClass model(2, 1);
     MarkovModel ai = model.getAiModel();
     MarkovModel human = model.getHumanModel();
     HashTable ai_table = ai.getTable();
@@ -61,5 +61,7 @@ int main(int argc, char *argv[]) {
     std::cout << "AI model compression: " << ai_bits << " bits" << std::endl;
     std::cout << "Human model compression: " << human_bits << " bits" << std::endl;
     std::cout << "The source of this text is likely: " << decision(ai_bits, human_bits) << std::endl;
+
+    
     return 0;
 }

@@ -1,21 +1,25 @@
 #include "HashTable.hpp"
+#include <cmath>
+
+using namespace std;
 
 void HashTable::increment(const std::string& context, char nextChar) {
     table[context][nextChar]++;
 }
 
 double HashTable::calculateProbability(const std::string& context, char nextChar, int alpha) {
-    auto it = table.find(context);
+    if (table.find(context) == table.end()) return static_cast<double>(alpha)/(alpha*62);
     int target = 0;
     int all_counts = 0;
-    if (it != table.end()) {
-        std::unordered_map<char, unsigned int> nextChars = table[context];
-        for (const auto& pair : nextChars) {
-            if (pair.first == nextChar) target = pair.second;
-            all_counts += pair.second;
-        }
-    } 
-    return static_cast<double>(target + alpha) / (all_counts + alpha * 62);
+    std::unordered_map<char, unsigned int> nextChars = table[context];
+    for (const auto& pair : nextChars) {
+        if (pair.first == nextChar) target = pair.second;
+        all_counts += pair.second;
+    }
+    //cout << "Context: " << context << endl;
+    //cout << "All counts: " << all_counts << endl;
+    //cout << "Target: " << target << endl;
+    return static_cast<double>(target + alpha) / (all_counts + alpha * table[context].size());
 }
 
 void HashTable::printHashTable() {
