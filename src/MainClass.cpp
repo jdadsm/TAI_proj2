@@ -79,11 +79,11 @@ void MainClass:: trainModels(){
 }
 
 void MainClass:: saveModels(string nameToSaveModel){
-    save_model(ai,"models/ai/"+nameToSaveModel);
-    save_model(human,"models/human/"+nameToSaveModel);
+    save_model(ai,"models/ai/"+nameToSaveModel+".dat");
+    save_model(human,"models/human/"+nameToSaveModel+".dat");
 }
 
-int MainClass:: predict(string text, int label){
+int MainClass:: predict(string text, int label=0,bool update_cm=true){
     double ai_bits = ai.bitsToCompress(text);
     double human_bits = human.bitsToCompress(text);
     //cout << "\nBits to compress in human model: " << human_bits << endl;
@@ -92,7 +92,7 @@ int MainClass:: predict(string text, int label){
     if(human_bits<ai_bits){
         pred_label = 0;
     }
-    fillConfusionMatrix(pred_label,label);
+    if(update_cm) fillConfusionMatrix(pred_label,label);
     return pred_label;
     
 }
@@ -136,7 +136,14 @@ MarkovModel MainClass:: load_model(const string filename) {
 void MainClass:: printHashTablePos(){
     ai.printHashTable();
 }
-
 void MainClass:: printHashTableNeg(){
     human.printHashTable();
+}
+
+MarkovModel MainClass:: getHumanModel(){
+    return human;
+}
+
+MarkovModel MainClass:: getAiModel(){
+    return ai;
 }

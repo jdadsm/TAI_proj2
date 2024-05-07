@@ -12,7 +12,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
     int k = 2;
     int alpha = 1;
-    string nameToSaveModel = "";
+    string nameToSaveModel = "model";
     string filePathPos = "data/pos_data_train.csv";
     string filePathNeg = "data/neg_data_train.csv";
     string filePathPosTest = "data/pos_data_test.csv";
@@ -50,13 +50,16 @@ int main(int argc, char* argv[]) {
     std::cout << "Training Time: " << duration.count() << " seconds" << std::endl;
 
 
+    MarkovModel ai =  main.getAiModel();
+    MarkovModel human =  main.getHumanModel();
+    
+    HashTable table_ai = ai.getTable();
+    table_ai.saveToFile("ai.txt");
 
-    if(nameToSaveModel!=""){
-        main.saveModels(nameToSaveModel);
-    }
-
-    main.printHashTableNeg();
-    //main.printHashTablePos();
+    HashTable table_human = human.getTable();
+    table_human.saveToFile("human.txt");
+    //main.printHashTableNeg();
+    //main.printHashTablePos ();
 
     auto start1 = std::chrono::high_resolution_clock::now();
  

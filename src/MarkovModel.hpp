@@ -18,6 +18,8 @@ public:
     double bitsToCompress(const string& text);
     int getK();
     int getAlpha();
+    HashTable getTable();
+    void setTable(HashTable newTable) ;
 };
 
 #endif

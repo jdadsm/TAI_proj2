@@ -1,7 +1,7 @@
 #include "MarkovModel.hpp"
 #include "HashTable.hpp"
 #include <cmath>
-
+#include <fstream>
 using namespace std;
 
 MarkovModel::MarkovModel(int k,int alpha) : k(k),alpha(alpha) {}
@@ -32,4 +32,11 @@ int MarkovModel::getK(){
 
 int MarkovModel::getAlpha(){
     return alpha;
+}
+
+HashTable MarkovModel::getTable(){
+    return table;
+}
+void MarkovModel::setTable(HashTable newTable) {
+    table = newTable;
 }

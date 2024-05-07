@@ -21,13 +21,14 @@ public:
     MainClass(int k,int alpha=1);
     void trainModels();
     void readData(string filePathPos, string filePathNeg,string filePathPosTest,string filePathNegTest);
-    int predict(string text, int label);
+    int predict(string text, int label,bool update_cm);
     void testModels();
     void save_model(const MarkovModel& obj, const string filename);
     MarkovModel load_model(const string filename);
     void saveModels(string nameToSaveModel);
     void printHashTablePos();
     void printHashTableNeg();
+    MarkovModel getHumanModel();
+    MarkovModel getAiModel();
 };
-
 #endif
