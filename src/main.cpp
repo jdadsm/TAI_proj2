@@ -12,7 +12,6 @@ using namespace std;
 int main(int argc, char* argv[]) {
     int k = 5;
     int alpha = 1;
-    string nameToSaveModel = "model";
     string filePathPos = "data/pos_data_train.csv";
     string filePathNeg = "data/neg_data_train2.csv";
     string filePathPosTest = "data/pos_data_test.csv";
@@ -28,8 +27,6 @@ int main(int argc, char* argv[]) {
             k = std::stoi(argv[++i]);
         } else if (arg == "-a" && i + 1 < argc) {
             alpha = std::stoi(argv[++i]);
-        } else if (arg == "-s" && i + 1 < argc) {
-            nameToSaveModel = argv[++i];
         }
     }
 
