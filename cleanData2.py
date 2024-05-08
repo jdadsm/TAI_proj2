@@ -7,7 +7,7 @@ def cleanData(inputFolder, testDataSize, outputFilePathPosTrain, outputFilePathN
     print(inputFiles)
     
     # Compile regex pattern to match non-alphanumeric characters
-    pattern = re.compile(r'[^a-zA-Z0-9]')
+    pattern = re.compile(r'[^a-zA-Z0-9\s]')
     
     testDataValue = 1/testDataSize*100
     
@@ -43,7 +43,6 @@ def cleanData(inputFolder, testDataSize, outputFilePathPosTrain, outputFilePathN
                     #text_value = text_value.lower()
                     label_value = row[label_index]
                     
-                    # Use regex to remove non-alphanumeric characters
                     text_value = re.sub(pattern, '', text_value)
                     
                     if n%testDataValue == 0:

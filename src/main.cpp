@@ -10,7 +10,7 @@ using namespace std;
 
 
 int main(int argc, char* argv[]) {
-    int k = 6;
+    int k = 5;
     int alpha = 1;
     string nameToSaveModel = "model";
     string filePathPos = "data/pos_data_train.csv";

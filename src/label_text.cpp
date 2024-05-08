@@ -43,10 +43,20 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    std::string filename = argv[1];
+    std::string filename = "../data/ai_sentence.txt";
+    int k = 2;
+
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "-k" && i + 1 < argc) {
+            k = std::stoi(argv[++i]);
+        }else if (arg == "-f" && i + 1 < argc) {
+            filename = argv[++i];
+        }
+    }
+
     std::string input = loadTextFromFile(filename);
-    
-    MainClass model(2, 1);
+    MainClass model(k, 1);
     MarkovModel ai = model.getAiModel();
     MarkovModel human = model.getHumanModel();
     HashTable ai_table = ai.getTable();
